@@ -1,14 +1,22 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import MyBookingsPage from './pages/MyBookingsPage'
+import RegisterUserPage from './pages/RegisterUserPage'
 
 function App() {
+
   return (
-    <>
-      Welcome to FlyMe
-    </>
+    <div className="w-full mx-auto">
+      <Routes>
+        <Route path="/" element= {<HomePage />}></Route>
+        <Route path="/login" element={<LoginPage />}></Route>
+        <Route path="/my-bookings" element={<MyBookingsPage />}></Route>
+        <Route path="/register" element={<RegisterUserPage />}></Route>
+      </Routes>
+    </div>
   )
 }
 
-export default App
+
+export default App;
