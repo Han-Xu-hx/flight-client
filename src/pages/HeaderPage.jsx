@@ -30,24 +30,30 @@ const HeaderPage = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-between items-center p-2 px-8 bg-gray-50 shadow-sm">
-        <img 
+      <div className="flex justify-between items-center p-2 px-8 bg-gray-50 shadow-sm gap-40">
+        <img
           src={flightLogo} 
           alt="Flight Logo" 
           className="h-10 rounded" 
         />
-        {isAuthenticated && (
-          <span className="ml-auto">Welcome, {user.firstName}</span>
+        <span className="text-2xl font-bold">Flight Booking System</span>
+        {isAuthenticated ? (
+          <span className="ml-auto">Welcome back, {user.firstName}</span>
+        ) : (
+          <span className="ml-auto">Welcome, Guest</span>
         )}
       </div>
       <nav className="flex justify-end items-center p-4 px-8 bg-gray-50 shadow-sm gap-4">
-        <button
-          onClick={() => navigate('/book')}
-          className={getButtonClasses('/book')}
-        >
-          Book
-        </button>
-        
+        {
+        // isAuthenticated && (
+        //   <button
+        //     onClick={() => navigate('/book')}
+        //     className={getButtonClasses('/book')}
+        //   >
+        //     Book
+        //   </button>
+        // )
+        }         
         <div className="relative">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -62,7 +68,7 @@ const HeaderPage = () => {
           
           {isMenuOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
-              <button 
+              {/* <button 
                 onClick={() => {
                   navigate('/manage-flights');
                   setIsMenuOpen(false);
@@ -70,16 +76,17 @@ const HeaderPage = () => {
                 className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
               >
                 Flights
-              </button>
+              </button> */}
               <button 
                 onClick={() => {
-                  navigate('/manage-bookings');
+                  navigate('/my-bookings');
                   setIsMenuOpen(false);
                 }}
                 className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
               >
                 Bookings
               </button>
+              {!isAuthenticated && (
               <button 
                 onClick={() => {
                   navigate('/register');
@@ -88,6 +95,16 @@ const HeaderPage = () => {
                 className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
               >
                 Register User
+              </button>
+              )}
+              <button 
+                onClick={() => {
+                  navigate('/');
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
+              >
+                Home Page
               </button>
             </div>
           )}

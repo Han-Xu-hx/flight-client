@@ -1,21 +1,21 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import countryList from 'country-list';
 import http from '../services/http';
 import { useAuth } from '../hooks/useAuth';
 
 const RegisterUserPage = () => {
-  const [userNameOrEmail, setUserNameOrEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [confirmPassword, setConfirmPassword] = React.useState('');
-  const [firstName, setFirstName] = React.useState('');
-  const [lastName, setLastName] = React.useState('');
-  const [country, setCountry] = React.useState('');
-  const [phone, setPhone] = React.useState('');
+  const [userNameOrEmail, setUserNameOrEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [country, setCountry] = useState('');
+  const [phone, setPhone] = useState('');
 
 
   // For error handling
-  const [errors, setErrors] = React.useState({
+  const [errors, setErrors] = useState({
     userNameOrEmail: '',
     password: '',
     confirmPassword: '',
@@ -29,7 +29,7 @@ const RegisterUserPage = () => {
 
   const navigate = useNavigate();
   const { setAuthState, isAuthenticated } = useAuth();
-  React.useEffect(() => {
+  useEffect(() => {
 
     // If user is already authenticated, redirect to home page
     if (isAuthenticated) {

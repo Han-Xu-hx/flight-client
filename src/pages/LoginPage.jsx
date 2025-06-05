@@ -1,14 +1,14 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import http from '../services/http';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
-  const [userNameOrEmail, setUserNameOrEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [userNameOrEmail, setUserNameOrEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   // For error handling
-  const [errors, setErrors] = React.useState({
+  const [errors, setErrors] = useState({
     userNameOrEmail: '',
     password: '',
     serverError: ''
@@ -17,9 +17,14 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const { setAuthState, isAuthenticated } = useAuth();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isAuthenticated) {
-      navigate('/');
+      if (sessionStorage.getItem('fromUrl')) {
+        const fromUrl = sessionStorage.getItem('fromUrl');
+        navigate(fromUrl);
+      } else {
+        navigate('/');
+      }
     } 
   }, [isAuthenticated, navigate]);
 
