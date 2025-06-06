@@ -154,7 +154,7 @@ function HomePage() {
                   checked={tripType === 'one-way'}
                   onChange={() => {
                     setTripType('one-way');
-                    setSearchParams({...searchParams, tripType: 'one-way'});
+                    setSearchParams({...searchParams, tripType: 'one-way', returnDate: ''});
                   }}
                 />
                 <span className="ml-2">One Way</span>
