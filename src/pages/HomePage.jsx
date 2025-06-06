@@ -85,8 +85,15 @@ function HomePage() {
       newErrors.returnDateError = 'Please select return date';
     }
 
+    if (searchParams.returnDate <= searchParams.date) {
+      newErrors.returnDateError = 'Return date must be after departure date';
+    }
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      setFlights([]);
+      setReturnFlights([]);
+      setIsLoading(false);
       return;
     }
 
