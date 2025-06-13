@@ -81,11 +81,11 @@ function HomePage() {
     if (!searchParams.date) {
       newErrors.dateError = 'Please select departure date';
     }
-    if (tripType === 'round-trip' &&!searchParams.returnDate) {
+    if (tripType === 'round-trip' && !searchParams.returnDate) {
       newErrors.returnDateError = 'Please select return date';
     }
 
-    if (searchParams.returnDate <= searchParams.date) {
+    if (tripType === 'round-trip' && searchParams.returnDate <= searchParams.date) {
       newErrors.returnDateError = 'Return date must be after departure date';
     }
 

@@ -244,7 +244,7 @@ function MyBookingsPage() {
             </div>
             {
               selectedBooking?.passengers.map(p1 => (
-                <div key={p1.id} className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="font-medium pl-5">{p1.firstName}, {p1.lastName}</p>
                   </div>
