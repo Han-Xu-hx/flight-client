@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="w-full mx-auto">
       <Routes>
-        <Route path="/" element= {<HomePage />}></Route>
+        <Route path="/" element={<HomePage />}></Route>
         <Route path="/login" element={<LoginPage />}></Route>
         <Route path="/my-bookings" element={<MyBookingsPage />}></Route>
         <Route path="/register" element={<RegisterUserPage />}></Route>
@@ -19,6 +19,5 @@ function App() {
     </div>
   )
 }
-
 
 export default App;

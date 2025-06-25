@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import http from '../services/http';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { Button, Field, Input, Label } from '@headlessui/react';
+import clsx from 'clsx';
+
 
 const LoginPage = () => {
   const [userNameOrEmail, setUserNameOrEmail] = useState('');
@@ -25,7 +28,7 @@ const LoginPage = () => {
       } else {
         navigate('/');
       }
-    } 
+    }
   }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e) => {
@@ -34,7 +37,7 @@ const LoginPage = () => {
 
     // validation errors
     const newErrors = {};
-    
+
     if (!userNameOrEmail) {
       newErrors.userNameOrEmail = 'Username or email is required';
     } else if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(userNameOrEmail)) {
@@ -57,59 +60,61 @@ const LoginPage = () => {
     }
 
     try {
-          const response = await http.post('/auth/login', {
-          email: userNameOrEmail,
-          password: password
-        });
+      const response = await http.post('/auth/login', {
+        email: userNameOrEmail,
+        password: password
+      });
 
-       const {token, user} = response.data.data;
-        if (token) {
-          localStorage.setItem('auth_token', token);
-          localStorage.setItem('user_info', JSON.stringify({
-            id: user.id,
-            email: user.email,
-            firstName: user.firstName
-          }));
+      const { token, user } = response.data.data;
+      if (token) {
+        localStorage.setItem('auth_token', token);
+        localStorage.setItem('user_info', JSON.stringify({
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName
+        }));
+      }
+
+      setAuthState({
+        isAuthenticated: true,
+        user: {
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName
         }
+      });
 
-        setAuthState({
-          isAuthenticated: true,
-          user: {
-            id: user.id,
-            email: user.email,
-            firstName: user.firstName
-          }
-        });
+      navigate('/');
+    } catch (error) {
 
-        navigate('/');
-  } catch (error) {
-
-    console.error(error);
-      const errorMessage = error.response?.data?.message 
-          || error.message 
-          || 'Authentication failed';
+      console.error(error);
+      const errorMessage = error.response?.data?.message
+        || error.message
+        || 'Authentication failed';
 
       if (error.response?.status === 400) {
-          if (error.response?.data?.data?.errors) {
-              if (error.response.data.data.errors.email) {
-                console.log(error.response.data.data.errors.email);
-                setErrors(prev => ({
-                  ...prev,
-                  ...error.response.data.data.errors,
-                  serverError: error.response.data.data.errors.email}));
-              } else if (error.response.data.data.errors.pwd) {
-                setErrors(prev => ({
-                  ...prev,
-                  ...error.response.data.data.errors,
-                  serverError: error.response.data.data.errors.pwd}));
-              } else {
-                  setErrors(prev => ({...prev, serverError: errorMessage }));
-              }
+        if (error.response?.data?.data?.errors) {
+          if (error.response.data.data.errors.email) {
+            console.log(error.response.data.data.errors.email);
+            setErrors(prev => ({
+              ...prev,
+              ...error.response.data.data.errors,
+              serverError: error.response.data.data.errors.email
+            }));
+          } else if (error.response.data.data.errors.pwd) {
+            setErrors(prev => ({
+              ...prev,
+              ...error.response.data.data.errors,
+              serverError: error.response.data.data.errors.pwd
+            }));
           } else {
-              setErrors(prev => ({...prev, serverError: errorMessage }));
+            setErrors(prev => ({ ...prev, serverError: errorMessage }));
           }
+        } else {
+          setErrors(prev => ({ ...prev, serverError: errorMessage }));
+        }
       } else {
-          setErrors(prev => ({...prev, serverError: errorMessage }));
+        setErrors(prev => ({ ...prev, serverError: errorMessage }));
       }
     }
   };
@@ -135,62 +140,57 @@ const LoginPage = () => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="relative mb-4">
-                <label
-                  id="username-label"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Username or email
-                </label>
-            <div className="relative">
-              <input
-                id="email"
-                type="text"
-                placeholder="Enter your username or email"
-                className="w-full pl-5 pr-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-0 transition-all"
-                style={{ height:48, width: 300}}
+            <Field>
+              <Label className="text-sm font-medium">Username or email</Label>
+              <Input
+                id='username-input'
+                className={clsx(
+                  'mt-3 block w-80 rounded-lg border-1 border-blue-400/50 px-3 py-1.5 text-sm font-medium',
+                  'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-blue-600/25'
+                )}
+                placeholder='Enter your username or email'
                 value={userNameOrEmail}
                 onChange={(e) => setUserNameOrEmail(e.target.value)}
               />
-              {errors.userNameOrEmail && (
+            </Field>
+            {errors.userNameOrEmail && (
               <span className="text-red-500 text-sm mt-1 block">
-                  {errors.userNameOrEmail}
+                {errors.userNameOrEmail}
               </span>
-              )}
-            </div>
+            )}
           </div>
           <div className="relative mb-4">
-                <label
-                  id="password-label" 
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Password
-                </label>
-            <div className="relative">
-              <input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                className="w-full pl-5 pr-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-0 transition-all"
-                style={{ height: 48, width: 300}}
+            <Field>
+              <Label className="text-sm font-medium">Password</Label>
+              <Input
+                id='password-input'
+                className={clsx(
+                  'mt-3 block w-80 rounded-lg border-1 border-blue-400/50 px-3 py-1.5 text-sm font-medium',
+                  'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-blue-600/25'
+                )}
+                type='password'
+                placeholder='Enter your password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {errors.password && (
+            </Field>
+            {errors.password && (
               <span className="text-red-500 text-sm mt-1 block">
-                  {errors.password}
+                {errors.password}
               </span>
-              )}
-            </div>
+            )}
           </div>
           {/* Login button */}
-            <button
+          <div className="relative mb-4">
+            <Button
               onClick={handleSubmit}
               className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold 
                       hover:from-blue-600 hover:to-purple-700 transition-all shadow-md"
             >
               Sign In
-            </button>
-            <div className="text-center text-sm text-gray-600 mt-4 space-y-2">
+            </Button>
+          </div>
+          <div className="text-center text-sm text-gray-600 mt-4 space-y-2">
             <div>
               <a href="#" className="text-blue-600 hover:underline">
                 Forgot password?

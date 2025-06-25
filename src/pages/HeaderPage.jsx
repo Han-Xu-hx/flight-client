@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import flightLogo from '../assets/flight.jpg';
 import { useEffect } from 'react';
@@ -30,7 +30,7 @@ const HeaderPage = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-between items-center p-2 px-8 bg-gray-50 shadow-sm gap-40">
+      <div className="flex justify-between items-center p-2 px-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-sm gap-40">
         <img
           src={flightLogo} 
           alt="Flight Logo" 
@@ -43,17 +43,7 @@ const HeaderPage = () => {
           <span className="ml-auto">Welcome, Guest</span>
         )}
       </div>
-      <nav className="flex justify-end items-center p-4 px-8 bg-gray-50 shadow-sm gap-4">
-        {
-        // isAuthenticated && (
-        //   <button
-        //     onClick={() => navigate('/book')}
-        //     className={getButtonClasses('/book')}
-        //   >
-        //     Book
-        //   </button>
-        // )
-        }         
+      <nav className="flex justify-end items-center p-4 px-8 bg-gray-50 shadow-sm gap-4">         
         <div className="relative">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -68,15 +58,6 @@ const HeaderPage = () => {
           
           {isMenuOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
-              {/* <button 
-                onClick={() => {
-                  navigate('/manage-flights');
-                  setIsMenuOpen(false);
-                }}
-                className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
-              >
-                Flights
-              </button> */}
               <button 
                 onClick={() => {
                   navigate('/my-bookings');

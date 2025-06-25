@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import countryList from 'country-list';
 import http from '../services/http';
 import { useAuth } from '../hooks/useAuth';
+import { Field, Input, Label, Button, Combobox,ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react';
+import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid';
+import clsx from 'clsx';
 
 const RegisterUserPage = () => {
   const [userNameOrEmail, setUserNameOrEmail] = useState('');
@@ -12,7 +15,7 @@ const RegisterUserPage = () => {
   const [lastName, setLastName] = useState('');
   const [country, setCountry] = useState('');
   const [phone, setPhone] = useState('');
-
+  const [query, setQuery] = useState('')
 
   // For error handling
   const [errors, setErrors] = useState({
@@ -26,6 +29,13 @@ const RegisterUserPage = () => {
   });
 
   const countries = countryList.getData().sort((a, b) => a.name.localeCompare(b.name));
+
+  const filteredCountries = 
+    query === ''
+        ? countries
+        : countries.filter((c) => {
+            return c.name.toLowerCase().includes(query.toLowerCase())
+          })
 
   const navigate = useNavigate();
   const { setAuthState, isAuthenticated } = useAuth();
@@ -157,190 +167,214 @@ const RegisterUserPage = () => {
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="relative mb-4">
-                <label
-                  id="username-label"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Username or email
-                </label>
-            <div className="relative">
-              <input
-                id="email"
-                type="text"
-                placeholder="Enter your username or email"
-                className="w-full pl-5 pr-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-0 transition-all"
-                style={{ height:48 }}
+            <Field>
+              <Label
+                id="username-label"
+                className="block text-sm font-medium text-gray-700 mb-2 w-100">
+                Username or email
+              </Label>
+              <Input
+                id="username"
                 value={userNameOrEmail}
+                placeholder="Enter your username or email"
                 onChange={(e) => setUserNameOrEmail(e.target.value)}
-              />
+                className={clsx('mt-3 block w-95 rounded-lg border-1 border-blue-500 px-3 py-1.5 text-sm font-medium',
+                                'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-blue-600/25')}>
+              </Input>
+            </Field>
             {errors.userNameOrEmail && (
             <span className="text-red-500 text-sm mt-1 block">
                 {errors.userNameOrEmail}
             </span>
             )}
-            </div>
           </div>
           <div className="relative mb-4">
-                <label
-                  id="password-label" 
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Password
-                </label>
-            <div className="relative">
-              <input
+            <Field>
+              <Label
+                id="password-label"
+                className="block text-sm font-medium text-gray-700 mb-2 w-100">
+                Confirm Password
+              </Label>
+              <Input
                 id="password"
                 type="password"
-                placeholder="Enter your password"
-                className="w-full pl-5 pr-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-0 transition-all"
-                style={{ height: 48 }}
                 value={password}
+                placeholder="Enter your password"
                 onChange={(e) => setPassword(e.target.value)}
-              />
+                className={clsx('mt-3 block w-95 rounded-lg border-1 border-blue-500 px-3 py-1.5 text-sm font-medium',
+                                'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-blue-600/25')}>
+              </Input>
+            </Field>
             {errors.password && (
             <span className="text-red-500 text-sm mt-1 block">
                 {errors.password}
             </span>
             )}
-            </div>
           </div>
           <div className="relative mb-4">
-                <label
-                  id="confirm-password-label" 
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Confirm Password
-                </label>
-            <div className="relative">
-              <input
+            <Field>
+              <Label
+                id="confirm-password-label"
+                className="block text-sm font-medium text-gray-700 mb-2 w-100">
+                Confirm Password
+              </Label>
+              <Input
                 id="confirm-password"
                 type="password"
-                placeholder="Enter your password again"
-                className="w-full pl-5 pr-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-0 transition-all"
-                style={{ height: 48 }}
                 value={confirmPassword}
+                placeholder="Enter your password again"
                 onChange={(e) => setConfirmPassword(e.target.value)}
-              />
+                className={clsx('mt-3 block w-95 rounded-lg border-1 border-blue-500 px-3 py-1.5 text-sm font-medium',
+                                'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-blue-600/25')}>
+              </Input>
+            </Field>
             {errors.confirmPassword && (
             <span className="text-red-500 text-sm mt-1 block">
                 {errors.confirmPassword}
             </span>
             )}
-            </div>
           </div>
           <div className="relative mb-4">
-                <label
-                  id="first-name-label"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  First Name
-                </label>
-            <div className="relative">
-              <input
+            <Field>
+              <Label
+                id="first-name-label"
+                className="block text-sm font-medium text-gray-700 mb-2 w-100">
+                First Name
+              </Label>
+              <Input
                 id="first-name"
-                type="text"
-                placeholder="Enter your first name"
-                className="w-full pl-5 pr-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-0 transition-all"
-                style={{ height:48 }}
                 value={firstName}
+                placeholder="Enter your first name"
                 onChange={(e) => setFirstName(e.target.value)}
-              />
+                className={clsx('mt-3 block w-95 rounded-lg border-1 border-blue-500 px-3 py-1.5 text-sm font-medium',
+                                'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-blue-600/25')}>
+              </Input>
+            </Field>
             {errors.firstName && (
             <span className="text-red-500 text-sm mt-1 block">
                 {errors.firstName}
             </span>
             )}
-            </div>
           </div>
 
           <div className="relative mb-4">
-                <label
-                  id="last-name-label"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Last Name
-                </label>
-            <div className="relative">
-              <input
+            <Field>
+              <Label
+                id="last-name-label"
+                className="block text-sm font-medium text-gray-700 mb-2 w-100">
+                Last Name
+              </Label>
+              <Input
                 id="last-name"
-                type="text"
-                placeholder="Enter your first name"
-                className="w-full pl-5 pr-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-0 transition-all"
-                style={{ height:48 }}
                 value={lastName}
+                placeholder="Enter your last name"
                 onChange={(e) => setLastName(e.target.value)}
-              />
+                className={clsx('mt-3 block w-95 rounded-lg border-1 border-blue-500 px-3 py-1.5 text-sm font-medium',
+                                'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-blue-600/25')}>
+              </Input>
+            </Field>
             {errors.lastName && (
             <span className="text-red-500 text-sm mt-1 block">
                 {errors.lastName}
             </span>
             )}
-            </div>
           </div>
 
           <div className="relative mb-4">
-                <label
-                  id="country-label"
-                  className="block text-sm font-medium text-gray-700 mb-2"
+            <Field>
+              <Label
+                id="country-label"
+                className="block text-sm font-medium text-gray-700 mb-2 w-100">
+                Country
+              </Label>
+              <Combobox
+                value={country} onChange={(value) => {
+                  setCountry(value);
+                }} onClose={() => setQuery('')}>
+                <div className="relative">
+                  <ComboboxInput
+                    className={clsx(
+                      'w-full rounded-lg border-1 border-blue-500 py-1.5 pr-8 pl-3 text-sm text-black font-medium',
+                      'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-blue-600/25'
+                    )}
+                    placeholder="Select a Country"
+                    displayValue={(c) => c}
+                    onChange={(event) => { 
+                        setQuery(event.target.value);
+                      }
+                    }
+                  />
+                  <ComboboxButton className="absolute inset-y-0.5 right-0.5 px-0 w-0 !bg-white !border-none">
+                    <ChevronDownIcon className="size-4 fill-blue-600" />
+                  </ComboboxButton>
+                </div>
+
+                <ComboboxOptions
+                  anchor="bottom"
+                  transition
+                  className={clsx(
+                    'w-(--input-width) rounded-xl border border-blue-500 bg-white p-1 [--anchor-gap:--spacing(1)] empty:invisible',
+                    'transition duration-100 ease-in data-leave:data-closed:opacity-0'
+                  )}
                 >
-                  Country
-                </label>
-            <div className="relative">
-              <select
-                id="country"
-                className="w-full pl-5 pr-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-0 transition-all"
-                style={{ height:48 }}
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-              >
-                <option value="">Select your country</option>
-                {countries.map((c) => (
-                  <option key={c.code} value={c.name}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
+                  <ComboboxOption
+                    value=""
+                    className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none"
+                  >
+                    <CheckIcon className="invisible size-4 fill-black group-data-selected:visible" />
+                    <div className="text-sm">Select a Country</div>
+                  </ComboboxOption>
+                  {filteredCountries.map((c) => (
+                    <ComboboxOption
+                      key={c.code}
+                      value={c.name}
+                      className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none"
+                    >
+                      <CheckIcon className="invisible size-4 fill-black group-data-selected:visible" />
+                      <div className="text-sm">{c.name}</div>
+                    </ComboboxOption>
+                  ))}
+                </ComboboxOptions>
+              </Combobox>
+            </Field>
             {errors.country && (
-            <span className="text-red-500 text-sm mt-1 block">
-                {errors.country}
-            </span>
+              <span className="text-red-500 text-sm mt-1 block">
+                  {errors.country}
+              </span>
             )}
-            </div>
           </div>
 
           <div className="relative mb-4">
-                <label
-                  id="phone-label"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Phone
-                </label>
-            <div className="relative">
-              <input
+          <Field>
+              <Label
+                id="phone-label"
+                className="block text-sm font-medium text-gray-700 mb-2 w-100">
+                Phone
+              </Label>
+              <Input
                 id="phone"
-                type="text"
-                placeholder="Enter your phone number"
-                className="w-full pl-5 pr-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-0 transition-all"
-                style={{ height:48 }}
                 value={phone}
+                placeholder="Enter your phone number"
                 onChange={(e) => setPhone(e.target.value)}
-              />
-            </div>
+                className={clsx('mt-3 block w-95 rounded-lg border-1 border-blue-500 px-3 py-1.5 text-sm font-medium',
+                                'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-blue-600/25')}>
+              </Input>
+            </Field>
             {errors.phone && (
             <span className="text-red-500 text-sm mt-1 block">
                 {errors.phone}
             </span>
             )}
           </div>
-
-          {/* 登录按钮 */}
-          <button
-            onClick={handleSubmit}
-            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold 
-                     hover:from-blue-600 hover:to-purple-700 transition-all shadow-md"
-          >
-            Register
-          </button>
+          <div className="relative mb-4">
+            <Button
+              onClick={handleSubmit}
+              className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold 
+                      hover:from-blue-600 hover:to-purple-700 transition-all shadow-md"
+            >
+              Register
+            </Button>
+          </div>
         </form>
       </div>
     </div>

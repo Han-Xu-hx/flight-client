@@ -8,6 +8,9 @@ import { Dialog, Transition, TransitionChild, DialogPanel, DialogTitle } from '@
 import { Fragment } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Field, Input, Label, Button } from '@headlessui/react';
+import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid';
+import clsx from 'clsx';
 
 function BookPage() {
   const [passengers, setPassengers] = useState([]);
@@ -170,13 +173,13 @@ function BookPage() {
             </div>
             
             <div className="items-end">
-              <button
+              <Button
                 type="submit"
-                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold 
-                      hover:from-blue-600 hover:to-purple-700 transition-all shadow-md"
+                className="bg-gradient-to-r h-9 from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold 
+                      hover:from-blue-600 hover:to-purple-700 transition-all shadow-md flex items-center justify-center"
               >
                 Booking Flight
-              </button>
+              </Button>
             </div>
           </form>
         </div>
@@ -185,13 +188,13 @@ function BookPage() {
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="border-b border-gray-200 p-4 flex justify-between items-center">
           <h3 className="text-lg font-semibold">Passengers</h3>
-          <button
+          <Button
             onClick={() => setIsOpen(true)}
-            className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold 
-                      hover:from-blue-600 hover:to-purple-700 transition-all shadow-md"
+            className="bg-gradient-to-r h-9 from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold 
+                      hover:from-blue-600 hover:to-purple-700 transition-all shadow-md flex items-center justify-center"
           >
             Add Passenger
-          </button>
+          </Button>
         </div>
 
         {/* Passenger List Items */}
@@ -204,18 +207,18 @@ function BookPage() {
                   <p className="text-sm text-gray-500">{passenger.email}</p>
                 </div>
                 <div className="flex space-x-2">
-                <button 
+                <Button 
                   onClick={() => handleEditPassenger(passenger)}
-                  className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg font-semibold 
-                            hover:from-blue-600 hover:to-purple-700 transition-all shadow-md"
+                  className="bg-gradient-to-r h-9 from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg font-semibold 
+                            hover:from-blue-600 hover:to-purple-700 transition-all shadow-md flex items-center justify-center"
                 >
                   Edit
-                </button>
-                <button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold 
-                      hover:from-blue-600 hover:to-purple-700 transition-all shadow-md"
+                </Button>
+                <Button className="bg-gradient-to-r h-9 from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold 
+                      hover:from-blue-600 hover:to-purple-700 transition-all shadow-md flex items-center justify-center"
                       onClick={() => handleRemovePassenger(passenger.tmpId)}>
                   Remove
-                </button>
+                </Button>
                 </div>
               </div>
             </div>
@@ -262,51 +265,66 @@ function BookPage() {
                   </DialogTitle>
                   <div className="mt-4 space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">First Name</label>
-                      <input
-                        type="text"
-                        className="mt-1 pl-5 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                        value={newPassenger.firstName}
-                        onChange={(e) => setNewPassenger({...newPassenger, firstName: e.target.value})}
-                      />
+                      <Field>
+                        <Label className="block text-sm font-medium text-gray-700">First Name</Label>
+                        <Input
+                          type="text"
+                          className={clsx(
+                            'mt-3 block w-full rounded-lg border-1 border-blue-400/50 px-3 py-1.5 text-sm font-medium',
+                            'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-blue-600/25'
+                          )}
+                          value={newPassenger.firstName}
+                          onChange={(e) => setNewPassenger({...newPassenger, firstName: e.target.value})}
+                        />
+                      </Field>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Last Name</label>
-                      <input
-                        type="text"
-                        className="mt-1 pl-5 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                        value={newPassenger.lastName}
-                        onChange={(e) => setNewPassenger({...newPassenger, lastName: e.target.value})}
-                      />
+                      <Field>
+                        <Label className="block text-sm font-medium text-gray-700">Last Name</Label>
+                        <Input
+                          type="text"
+                          className={clsx(
+                            'mt-3 block w-full rounded-lg border-1 border-blue-400/50 px-3 py-1.5 text-sm font-medium',
+                            'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-blue-600/25'
+                          )}
+                          value={newPassenger.lastName}
+                          onChange={(e) => setNewPassenger({...newPassenger, lastName: e.target.value})}
+                        />
+                      </Field>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Email</label>
-                      <input
-                        type="email"
-                        className="mt-1 pl-5 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                        value={newPassenger.email}
-                        onChange={(e) => setNewPassenger({...newPassenger, email: e.target.value})}
-                      />
+                      <Field>
+                        <Label className="block text-sm font-medium text-gray-700">Email</Label>
+                        <Input
+                          type="email"
+                          className={clsx(
+                            'mt-3 block w-full rounded-lg border-1 border-blue-400/50 px-3 py-1.5 text-sm font-medium',
+                            'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-blue-600/25'
+                          )}
+                          value={newPassenger.email}
+                          onChange={(e) => setNewPassenger({...newPassenger, email: e.target.value})}
+                        />
+                      </Field>
                     </div>
                   </div>
 
                   <div className="mt-6 flex justify-end space-x-3">
-                    <button
+                    <Button
                       type="button"
-                      className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold 
-                      hover:from-blue-600 hover:to-purple-700 transition-all shadow-md"
+                      className="bg-gradient-to-r h-9 from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold 
+                      hover:from-blue-600 hover:to-purple-700 transition-all shadow-md flex items-center justify-center"
                       onClick={() => setIsOpen(false)}
                     >
                       Cancel
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       type="button"
-                      className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold 
-                      hover:from-blue-600 hover:to-purple-700 transition-all shadow-md"
+                      className="bg-gradient-to-r h-9 from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold 
+                      hover:from-blue-600 hover:to-purple-700 transition-all shadow-md flex items-center justify-center"
                       onClick={handleAddPassenger}
                     >
                       {editMode ? 'Modify Passenger' : 'Add Passenger'}
-                    </button>
+                    </Button>
                   </div>
                 </DialogPanel>
               </TransitionChild>
